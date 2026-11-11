@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generator Pelantikan Dokter Spesialis FK UB</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style.css">
+  </head>
+  <body class="bg-[#080911] text-slate-100 min-h-screen flex flex-col md:flex-row font-['Plus_Jakarta_Sans',sans-serif] selection:bg-indigo-500 selection:text-white overflow-x-hidden antialiased">
+    
+    <!-- LEFT VERTICAL SIDEBAR -->
+    <aside class="w-full md:w-64 bg-[#0d0f1d] border-b md:border-b-0 md:border-r border-indigo-900/20 flex-shrink-0 flex flex-col justify-between sticky top-0 md:h-screen z-30 shadow-2xl">
+      <div>
+        <div class="p-5 border-b border-indigo-900/20 flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-amber-500 flex items-center justify-center shadow-lg shadow-indigo-600/30 ring-1 ring-white/20 flex-shrink-0">
+            <span class="font-extrabold text-white text-base tracking-tighter">FK</span>
+          </div>
+          <div class="truncate">
+            <h1 class="text-sm font-extrabold text-white tracking-tight truncate">Pelantikan Spesialis</h1>
+            <p class="text-[10px] text-slate-400 font-mono flex items-center gap-1.5 mt-0.5">
+              <span>FK UB</span>
+              <span class="w-1 h-1 rounded-full bg-slate-600"></span>
+              <span class="text-indigo-400 font-semibold">Multi-Prodi</span>
+            </p>
+          </div>
+        </div>
+
+        <nav class="p-3.5 space-y-1.5">
+          <div class="px-3 pt-2 pb-1.5 text-[10px] uppercase font-extrabold text-slate-500 tracking-wider font-mono">Menu Utama</div>
+          
+          <button id="tabBtnDashboard" onclick="switchTab('dashboard')" class="nav-life-btn active w-full px-3.5 py-2.5 text-xs font-semibold flex items-center space-x-3 text-slate-300 hover:text-white">
+            <svg class="w-4 h-4 text-indigo-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+            </svg>
+            <span class="truncate">Generator Presentasi</span>
+          </button>
+
+          <button id="tabBtnBiodata" onclick="switchTab('biodata')" class="nav-life-btn w-full px-3.5 py-2.5 text-xs font-semibold flex items-center space-x-3 text-slate-400 hover:text-white">
+            <svg class="w-4 h-4 text-slate-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+            </svg>
+            <span class="truncate">Data Biodata</span>
+          </button>
+
+          <button id="tabBtnTtd" onclick="switchTab('ttd')" class="nav-life-btn w-full px-3.5 py-2.5 text-xs font-semibold flex items-center space-x-3 text-slate-400 hover:text-white">
+            <svg class="w-4 h-4 text-slate-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
+            </svg>
+            <span class="truncate">Pemanggilan TTD</span>
+          </button>
+        </nav>
+      </div>
+
+      <div class="p-3.5 border-t border-indigo-900/20 space-y-3">
+        <div class="p-3 rounded-xl bg-[#131728] border border-indigo-500/10 text-[11px] text-slate-400 leading-relaxed italic">
+          "Small steps every day create big results."
+        </div>
+
+        <button id="btnReload" onclick="loadSummary()" class="w-full px-3.5 py-2.5 rounded-xl bg-[#090b14] hover:bg-[#131728] text-slate-300 hover:text-white transition-all text-xs font-semibold flex items-center justify-between border border-indigo-900/30 shadow-md">
+          <span class="flex items-center space-x-2 truncate">
+            <svg id="iconRefresh" class="w-4 h-4 text-indigo-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+            </svg>
+            <span class="truncate">Muat Ulang Sheet</span>
+          </span>
+          <span class="text-[10px] font-mono text-indigo-400 font-bold">Sync</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN RIGHT CONTENT AREA -->
+    <main class="flex-1 p-5 md:p-8 space-y-6 max-w-6xl w-full mx-auto min-h-screen overflow-y-auto">
+
+      <!-- TOP HERO BANNER -->
+      <div id="heroBannerElement" class="hero-banner-life p-6 md:p-8 rounded-3xl relative overflow-hidden flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-2xl">
+        <div class="space-y-1.5 max-w-xl z-10">
+          <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-indigo-500/20 border border-indigo-500/30 text-indigo-300 text-xs font-semibold backdrop-blur-md">
+            <span>Fakultas Kedokteran Universitas Brawijaya</span>
+          </div>
+          <h1 class="text-2xl md:text-4xl font-extrabold text-white tracking-tight leading-tight">
+            Pelantikan Dokter Spesialis
+          </h1>
+          <p class="text-xs md:text-sm text-slate-300 font-medium">
+            Generator Presentasi Multi-Prodi Otomatis Terintegrasi Google Sheets & Google Slides.
+          </p>
+        </div>
+
+        <div class="text-right z-10 self-end md:self-center">
+          <p class="font-['Caveat',cursive] text-2xl md:text-3xl text-amber-300 font-bold transform -rotate-3 leading-snug drop-shadow-md">
+            Discipline today,<br>freedom tomorrow.
+          </p>
+        </div>
+      </div>
+
+      <!-- Active Sheet Connected Topbar -->
+      <div id="sheetConnectedBar" class="hidden card-life p-3.5 flex items-center justify-between text-xs">
+        <div class="flex items-center space-x-2.5 truncate">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse flex-shrink-0"></span>
+          <span class="text-slate-400 font-medium">Terhubung ke:</span>
+          <span id="sheetConnectedTitle" class="font-bold text-white truncate font-mono">Google Sheet</span>
+        </div>
+        <button onclick="changeSpreadsheetPrompt()" class="text-[11px] text-indigo-400 hover:text-indigo-300 hover:underline flex-shrink-0 font-semibold">Pengaturan Koneksi</button>
+      </div>
+
+      <!-- Status Alert Banner -->
+      <div id="statusAlert" class="hidden rounded-2xl p-4 border transition-all duration-300 flex items-start space-x-3">
+        <div id="statusIcon" class="mt-0.5 flex-shrink-0"></div>
+        <div class="flex-1 text-sm">
+          <h4 id="statusTitle" class="font-bold mb-0.5"></h4>
+          <p id="statusMessage" class="text-xs text-slate-300"></p>
+        </div>
+      </div>
+
+      <!-- Konfigurasi Koneksi Apps Script & Spreadsheet -->
+      <div id="spreadsheetConfigBox" class="hidden card-life p-5 border-indigo-500/30 bg-indigo-950/20 space-y-3">
+        <div>
+          <h3 class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-1.5 text-indigo-300">
+            <svg class="w-5 h-5 text-indigo-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+            Sambungkan Backend Apps Script & Google Sheet
+          </h3>
+          <p class="text-xs text-slate-400 mt-0.5">Masukkan URL Web App Apps Script (berakhiran <code class="text-amber-400">/exec</code>) dan ID/URL Google Spreadsheet Anda:</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+          <input type="url" id="inputGasUrl" placeholder="URL Web App Apps Script (https://script.google.com/.../exec)" class="input-life px-3.5 py-2.5 rounded-xl text-xs font-mono">
+          <div class="flex gap-2">
+            <input type="text" id="inputSpreadsheetId" placeholder="ID atau URL Google Spreadsheet" class="input-life flex-1 px-3.5 py-2.5 rounded-xl text-xs font-mono">
+            <button onclick="applySpreadsheetId()" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-xl transition-all shadow-md flex-shrink-0">
+              Hubungkan
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= TAB 1: DASHBOARD & GENERATOR ================= -->
+      <div id="viewDashboard" class="space-y-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="card-life p-4.5 space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="w-9 h-9 rounded-xl icon-box-purple flex items-center justify-center">
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                </svg>
+              </div>
+              <span class="text-[10px] font-mono text-purple-400 font-bold bg-purple-500/10 px-2 py-0.5 rounded-md">Tab Wisudawan</span>
+            </div>
+            <div>
+              <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Total Wisudawan</span>
+              <div class="flex items-baseline space-x-2 mt-0.5">
+                <span id="statWisudawan" class="text-3xl font-extrabold text-white tracking-tight tabular-nums">--</span>
+                <span class="text-xs text-purple-400 font-bold">Kandidat</span>
+              </div>
+            </div>
+            <div class="w-full h-1.5 rounded-full bg-slate-900 overflow-hidden">
+              <div class="h-full bg-purple-500 rounded-full w-4/5"></div>
+            </div>
+          </div>
+
+          <div class="card-life p-4.5 space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="w-9 h-9 rounded-xl icon-box-emerald flex items-center justify-center">
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+              </div>
+              <span class="text-[10px] font-mono text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded-md">Terdaftar</span>
+            </div>
+            <div>
+              <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Program Studi</span>
+              <div class="flex items-baseline space-x-2 mt-0.5">
+                <span id="statProdi" class="text-3xl font-extrabold text-white tracking-tight tabular-nums">--</span>
+                <span class="text-xs text-emerald-400 font-bold">Prodi Aktif</span>
+              </div>
+            </div>
+            <div class="w-full h-1.5 rounded-full bg-slate-900 overflow-hidden">
+              <div class="h-full bg-emerald-500 rounded-full w-full"></div>
+            </div>
+          </div>
+
+          <div class="card-life p-4.5 space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="w-9 h-9 rounded-xl icon-box-blue flex items-center justify-center">
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
+                </svg>
+              </div>
+              <span class="text-[10px] font-mono text-blue-400 font-bold bg-blue-500/10 px-2 py-0.5 rounded-md">Tab TTD</span>
+            </div>
+            <div>
+              <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Konfigurasi TTD</span>
+              <div class="flex items-baseline space-x-2 mt-0.5">
+                <span id="statTtd" class="text-3xl font-extrabold text-white tracking-tight tabular-nums">--</span>
+                <span class="text-xs text-blue-400 font-bold">Slot Ready</span>
+              </div>
+            </div>
+            <div class="w-full h-1.5 rounded-full bg-slate-900 overflow-hidden">
+              <div class="h-full bg-blue-500 rounded-full w-3/4"></div>
+            </div>
+          </div>
+
+          <div class="card-life p-4.5 space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="w-9 h-9 rounded-xl icon-box-orange flex items-center justify-center">
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+              </div>
+              <span class="text-[10px] font-mono text-orange-400 font-bold bg-orange-500/10 px-2 py-0.5 rounded-md">Dual Anchor</span>
+            </div>
+            <div>
+              <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Posisi Slide PPT</span>
+              <div class="mt-1 space-y-0.5">
+                <div class="text-[11px] text-emerald-400 font-extrabold truncate">1. Biodata: Atas Sumpah (Slide 4)</div>
+                <div class="text-[11px] text-amber-400 font-extrabold truncate">2. TTD: Bawah Sumpah (Slide 18)</div>
+              </div>
+            </div>
+            <div class="w-full h-1.5 rounded-full bg-slate-900 overflow-hidden">
+              <div class="h-full bg-orange-500 rounded-full w-full"></div>
+            </div>
+          </div>
+        </div>
+
+        <section class="card-life p-6 space-y-4">
+          <h2 class="text-sm font-bold text-white tracking-wide uppercase flex items-center gap-2">
+            <svg class="w-5 h-5 text-indigo-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+            <span>Konfigurasi Presentasi & Tampilan Header</span>
+          </h2>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1.5">
+                Tanggal Cover (Tag: <code class="text-amber-400 font-mono text-[11px]">{{TANGGAL_COVER}}</code>)
+              </label>
+              <div class="flex gap-2">
+                <input type="text" id="inputTanggalCover" placeholder="Contoh: 18 Mei 2026" class="input-life flex-1 px-3.5 py-2.5 rounded-xl text-sm">
+                <input type="date" id="pickerTanggalCover" onchange="onDatePickerChange(this.value)" class="input-life px-3.5 py-2.5 rounded-xl text-xs text-slate-300 cursor-pointer" title="Pilih Tanggal dari Kalender">
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1.5">
+                ID Template Google Slides
+              </label>
+              <input type="text" id="inputTemplateId" value="1dh-tTb1LlIoLGGwI_JA0Ev-iS5ZTyToHQEDuvXdYBWM" class="input-life w-full px-3.5 py-2.5 rounded-xl text-xs font-mono">
+            </div>
+
+            <div class="md:col-span-2 pt-2 border-t border-indigo-900/20">
+              <label class="block text-xs font-semibold text-slate-300 mb-1.5 flex items-center justify-between">
+                <span>URL Gambar Banner Header (Ganti Foto Background Atas)</span>
+                <button type="button" onclick="resetHeroBannerImage()" class="text-[11px] text-indigo-400 hover:text-indigo-300 hover:underline">Reset Gambar Default</button>
+              </label>
+              <div class="flex gap-2">
+                <input type="url" id="inputBannerUrl" oninput="updateHeroBannerPreview(this.value)" placeholder="Tempel URL Tautan Gambar Baru (Contoh: https://.../gambar-fkub.jpg)" class="input-life flex-1 px-3.5 py-2.5 rounded-xl text-xs font-mono">
+                <button type="button" onclick="updateHeroBannerPreview(document.getElementById('inputBannerUrl').value)" class="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-xl transition-all shadow-md flex-shrink-0 flex items-center gap-1.5">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                  <span>Terapkan</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card-life p-6 space-y-4">
+          <div class="flex items-center justify-between">
+            <h2 class="text-sm font-bold text-white tracking-wide uppercase flex items-center gap-2">
+              <svg class="w-5 h-5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+              </svg>
+              <span>Daftar TTD Prodi Aktif</span>
+            </h2>
+            <span id="badgeProdiCount" class="text-xs font-mono font-bold text-indigo-300 bg-indigo-500/10 border border-indigo-500/20 px-3 py-1 rounded-full">0 Prodi</span>
+          </div>
+
+          <div id="prodiListContainer" class="space-y-2 max-h-56 overflow-y-auto pr-1">
+            <div class="text-xs text-slate-500 py-4 text-center italic">Memuat data dari Google Sheets...</div>
+          </div>
+        </section>
+
+        <div class="card-life p-6 space-y-4 border-indigo-500/30 bg-gradient-to-b from-[#181c33] to-[#101324]">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <h3 class="text-sm font-extrabold text-white">Eksekusi Generator Presentasi</h3>
+              <p class="text-xs text-slate-400 mt-0.5">Sistem menduplikasi template, menyusun biodata & TTD per prodi, dan membersihkan master slide.</p>
+            </div>
+
+            <button id="btnGenerate" onclick="startGeneration()" class="px-6 py-3.5 rounded-xl bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 hover:from-indigo-500 hover:to-indigo-500 text-white font-extrabold text-xs tracking-wide uppercase shadow-lg shadow-indigo-600/30 flex items-center justify-center space-x-2 transition-all transform active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed">
+              <svg id="iconBtn" class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+              </svg>
+              <span id="btnText">Buat Presentasi Sekarang</span>
+            </button>
+          </div>
+
+          <div id="progressBox" class="hidden space-y-2.5 pt-3 border-t border-indigo-900/30">
+            <div class="flex justify-between text-xs text-slate-300">
+              <span id="progressLabel" class="flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+                Sedang memproses slides di Google Drive...
+              </span>
+              <span id="progressTime" class="font-mono text-slate-500">Estimasi ~20-40 detik</span>
+            </div>
+            <div class="w-full h-2 rounded-full bg-slate-900 overflow-hidden border border-indigo-900/20">
+              <div id="progressBar" class="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-emerald-400 transition-all duration-500 w-1/4 animate-pulse"></div>
+            </div>
+          </div>
+        </div>
+
+        <div id="resultBox" class="hidden card-life p-6 border-emerald-500/30 bg-emerald-950/10 space-y-4">
+          <div class="flex items-start justify-between">
+            <div class="flex items-center space-x-3">
+              <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center">
+                <svg class="w-6 h-6 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-base font-bold text-white">Presentasi Berhasil Dibuat!</h3>
+                <p class="text-xs text-slate-400" id="resultMeta">Semua slide berhasil disisipkan dengan rapi.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-3.5 rounded-xl bg-[#0b0d18] border border-indigo-900/30 flex items-center justify-between">
+            <div class="truncate mr-3">
+              <div class="text-[11px] text-slate-500 uppercase font-mono font-bold">Tautan Google Slides</div>
+              <div id="resultUrlText" class="text-xs text-indigo-400 font-mono truncate">https://docs.google.com/presentation/...</div>
+            </div>
+            <a id="resultBtnOpen" href="#" target="_blank" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center space-x-1.5 transition-all shadow-md flex-shrink-0">
+              <span>Buka Presentasi</span>
+              <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= TAB 2: DATA BIODATA ================= -->
+      <div id="viewBiodata" class="hidden space-y-6">
+        <section class="card-life p-6 space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-indigo-900/30 pb-4">
+            <div>
+              <h2 class="text-sm font-bold text-white tracking-wide uppercase flex items-center gap-2">
+                <svg class="w-5 h-5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
+                </svg>
+                <span>Tambah / Impor Data Wisudawan</span>
+              </h2>
+              <p class="text-[11px] text-slate-400 mt-0.5">Data otomatis tersimpan ke tab <code class="text-amber-400 font-mono">'Wisudawan'</code></p>
+            </div>
+
+            <div class="flex items-center space-x-1 bg-[#0b0d18] p-1 rounded-xl border border-indigo-900/30 self-start sm:self-auto">
+              <button id="btnSubModeSingle" onclick="switchBioSubMode('single')" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center space-x-1 text-white bg-emerald-600 shadow">
+                <span>Form Satu-per-Satu</span>
+              </button>
+              <button id="btnSubModeBulk" onclick="switchBioSubMode('bulk')" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center space-x-1 text-slate-400 hover:text-white">
+                <span>📂 Impor Excel / Bulk Paste</span>
+              </button>
+            </div>
+          </div>
+
+          <div id="boxBioSingle">
+            <form id="formAddBiodata" onsubmit="submitWisudawan(event)" class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+              <div>
+                <label class="block font-semibold text-slate-300 mb-1">Nama Dokter (NAMA) *</label>
+                <input type="text" id="bioNama" placeholder="Contoh: dr. Ahmad Santoso, Sp.An-TI" required class="input-life w-full px-3.5 py-2.5 rounded-xl text-white">
+              </div>
+              <div>
+                <label class="block font-semibold text-slate-300 mb-1">Tempat, Tanggal Lahir (TTL)</label>
+                <input type="text" id="bioTtl" placeholder="Contoh: Malang, 15 Juli 1992" class="input-life w-full px-3.5 py-2.5 rounded-xl text-white">
+              </div>
+              <div>
+                <label class="block font-semibold text-slate-300 mb-1">Nama Ayah (NAMA AYAH)</label>
+                <input type="text" id="bioAyah" placeholder="Contoh: Bpk. H. Bambang" class="input-life w-full px-3.5 py-2.5 rounded-xl text-white">
+              </div>
+              <div>
+                <label class="block font-semibold text-slate-300 mb-1">Nama Ibu (NAMA IBU)</label>
+                <input type="text" id="bioIbu" placeholder="Contoh: Ibu Hj. Siti Rahma" class="input-life w-full px-3.5 py-2.5 rounded-xl text-white">
+              </div>
+              <div class="sm:col-span-2 flex items-center justify-end pt-2">
+                <button type="submit" id="btnSaveBio" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md transition-all flex items-center space-x-1.5">
+                  <span>+ Simpan Wisudawan</span>
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <div id="boxBioBulk" class="hidden space-y-3 text-xs">
+            <div class="p-3.5 rounded-xl bg-[#0b0d18] border border-indigo-900/30 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-slate-200 uppercase tracking-wider text-[11px]">Metode 1: Unggah File Excel / CSV (.xlsx / .csv)</span>
+                <span class="text-[10px] text-emerald-400 font-mono font-bold">Format 4 Kolom: NAMA | TTL | AYAH | IBU</span>
+              </div>
+              <input type="file" id="inputFileExcel" accept=".xlsx, .xls, .csv" onchange="handleExcelFileUpload(event)" class="block w-full text-xs text-slate-400 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-indigo-600 file:text-white hover:file:bg-indigo-500 file:cursor-pointer cursor-pointer border border-indigo-900/30 rounded-xl bg-slate-950 p-1">
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-[#0b0d18] border border-indigo-900/30 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-slate-200 uppercase tracking-wider text-[11px]">Metode 2: Tempel / Copy-Paste Kolom dari Excel</span>
+                <button type="button" onclick="parseBulkText()" class="text-[11px] text-indigo-400 font-semibold hover:underline">Pratinjau Data</button>
+              </div>
+              <textarea id="txtBulkInput" rows="5" placeholder="Tempel baris data dari Excel di sini (Pemisah Tab / Koma / Pipe)" class="input-life w-full px-3.5 py-2.5 rounded-xl font-mono text-xs"></textarea>
+            </div>
+
+            <div id="bulkPreviewBox" class="hidden p-3.5 rounded-xl bg-[#0b0d18] border border-emerald-500/30 space-y-2">
+              <span class="font-bold text-emerald-400 text-xs">Pratinjau: Terdeteksi <span id="lblBulkCount" class="underline">0</span> Baris Data</span>
+              <div id="bulkPreviewTable" class="max-h-40 overflow-y-auto text-[11px] font-mono text-slate-300 space-y-1"></div>
+            </div>
+
+            <div class="flex justify-end pt-1">
+              <button type="button" id="btnSaveBulk" onclick="executeBulkImport()" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md transition-all disabled:opacity-50">
+                Simpan Massal ke Sheet
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section class="card-life p-6 space-y-4">
+          <div class="flex items-center justify-between">
+            <h2 class="text-sm font-bold text-white tracking-wide uppercase">Daftar Wisudawan Terdaftar</h2>
+            <span id="badgeWisTotal" class="text-xs font-mono font-bold text-indigo-300 bg-indigo-500/10 border border-indigo-500/20 px-3 py-1 rounded-full">0 Dokter</span>
+          </div>
+
+          <div class="overflow-x-auto rounded-xl border border-indigo-900/30">
+            <table class="w-full text-left text-xs text-slate-300 table-life">
+              <thead class="text-slate-400 uppercase text-[10px] font-mono border-b border-indigo-900/30">
+                <tr>
+                  <th class="px-3.5 py-3 w-12 text-center">No</th>
+                  <th class="px-3.5 py-3">Nama Dokter</th>
+                  <th class="px-3.5 py-3">TTL</th>
+                  <th class="px-3.5 py-3">Nama Ayah</th>
+                  <th class="px-3.5 py-3">Nama Ibu</th>
+                  <th class="px-3.5 py-3 text-center w-16">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="tableWisudawanBody" class="divide-y divide-indigo-900/20 bg-[#0a0c16]">
+                <tr><td colspan="6" class="text-center py-6 text-slate-500 italic">Memuat data wisudawan...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+
+      <!-- ================= TAB 3: PEMANGGILAN TTD PRODI ================= -->
+      <div id="viewTtd" class="hidden space-y-6">
+        <section class="card-life p-6 space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-indigo-900/30 pb-4">
+            <div>
+              <h2 class="text-sm font-bold text-white tracking-wide uppercase">Pengaturan TTD Pemanggilan Berdiri per Prodi</h2>
+              <p class="text-[11px] text-slate-400 mt-0.5">Data tersimpan ke tab <code class="text-amber-400 font-mono">'TTD'</code> (5 Kolom: PRODI, LAYOUT, TTD1, TTD2, TTD3)</p>
+            </div>
+
+            <div class="flex items-center space-x-1 bg-[#0b0d18] p-1 rounded-xl border border-indigo-900/30 self-start sm:self-auto">
+              <button id="btnSubModeTtdSingle" onclick="switchTtdSubMode('single')" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all text-white bg-amber-600 shadow">
+                Form Satu-per-Satu
+              </button>
+              <button id="btnSubModeTtdBulk" onclick="switchTtdSubMode('bulk')" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all text-slate-400 hover:text-white">
+                📂 Impor Excel / Bulk Paste TTD
+              </button>
+            </div>
+          </div>
+
+          <div id="boxTtdSingle">
+            <form id="formSaveTtd" onsubmit="submitTtd(event)" class="space-y-3 text-xs">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label class="block font-semibold text-slate-300 mb-1">Nama Program Studi (PRODI) *</label>
+                  <input type="text" id="ttdProdi" placeholder="Contoh: Anestesiologi dan Terapi Intensif" required class="input-life w-full px-3.5 py-2.5 rounded-xl text-white">
+                </div>
+                <div>
+                  <label class="block font-semibold text-slate-300 mb-1">Pilihan Layout Slide TTD *</label>
+                  <select id="ttdLayout" onchange="toggleTtdInputs()" class="input-life w-full px-3.5 py-2.5 rounded-xl text-white">
+                    <option value="1">Layout 1 (1 Foto Penandatangan - Slide 18)</option>
+                    <option value="2">Layout 2 (2 Foto Penandatangan - Slide 19)</option>
+                    <option value="3">Layout 3 (3 Foto Penandatangan - Slide 20)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="space-y-2 pt-2 border-t border-indigo-900/30">
+                <div id="boxTtd1">
+                  <label class="block font-semibold text-amber-400 mb-1">Nama TTD 1 *</label>
+                  <input type="text" id="ttdNama1" placeholder="Dr. dr. Nama Penandatangan 1, Sp.An-TI" required class="input-life w-full px-3.5 py-2.5 rounded-xl text-white">
+                </div>
+                <div id="boxTtd2" class="hidden">
+                  <label class="block font-semibold text-amber-400 mb-1">Nama TTD 2 *</label>
+                  <input type="text" id="ttdNama2" placeholder="Prof. Dr. dr. Nama Penandatangan 2, Sp.A(K)" class="input-life w-full px-3.5 py-2.5 rounded-xl text-white">
+                </div>
+                <div id="boxTtd3" class="hidden">
+                  <label class="block font-semibold text-amber-400 mb-1">Nama TTD 3 *</label>
+                  <input type="text" id="ttdNama3" placeholder="Dr. dr. Nama Penandatangan 3, Sp.B" class="input-life w-full px-3.5 py-2.5 rounded-xl text-white">
+                </div>
+              </div>
+
+              <div class="flex justify-end pt-2">
+                <button type="submit" id="btnSaveTtd" class="px-5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs shadow-md transition-all">
+                  Simpan Konfigurasi TTD
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <div id="boxTtdBulk" class="hidden space-y-3 text-xs">
+            <div class="p-3.5 rounded-xl bg-[#0b0d18] border border-indigo-900/30 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-slate-200 uppercase tracking-wider text-[11px]">Metode 1: Unggah File Excel TTD (.xlsx / .csv)</span>
+                <span class="text-[10px] text-amber-400/90 font-mono font-bold">Format 5 Kolom: PRODI | LAYOUT (1/2/3) | TTD1 | TTD2 | TTD3</span>
+              </div>
+              <input type="file" id="inputFileExcelTtd" accept=".xlsx, .xls, .csv" onchange="handleTtdExcelFileUpload(event)" class="block w-full text-xs text-slate-400 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-amber-600 file:text-white hover:file:bg-amber-500 file:cursor-pointer cursor-pointer border border-indigo-900/30 rounded-xl bg-slate-950 p-1">
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-[#0b0d18] border border-indigo-900/30 space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-slate-200 uppercase tracking-wider text-[11px]">Metode 2: Tempel / Copy-Paste Kolom Tabel TTD dari Excel</span>
+                <button type="button" onclick="parseTtdBulkText()" class="text-[11px] text-amber-400 font-semibold hover:underline">Pratinjau Data TTD</button>
+              </div>
+              <textarea id="txtTtdBulkInput" rows="4" placeholder="Tempel baris tabel TTD dari Excel di sini" class="input-life w-full px-3.5 py-2.5 rounded-xl font-mono text-xs"></textarea>
+            </div>
+
+            <div id="ttdBulkPreviewBox" class="hidden p-3.5 rounded-xl bg-[#0b0d18] border border-amber-500/30 space-y-2">
+              <span class="font-bold text-amber-400 text-xs">Pratinjau TTD: Terdeteksi <span id="lblTtdBulkCount" class="underline">0</span> Prodi TTD</span>
+              <div id="ttdBulkPreviewTable" class="max-h-40 overflow-y-auto text-[11px] font-mono text-slate-300 space-y-1"></div>
+            </div>
+
+            <div class="flex justify-end pt-1">
+              <button type="button" id="btnSaveTtdBulk" onclick="executeTtdBulkImport()" class="px-5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs shadow-md transition-all disabled:opacity-50">
+                Simpan Massal TTD ke Sheet
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section class="card-life p-6 space-y-4">
+          <div class="flex items-center justify-between">
+            <h2 class="text-sm font-bold text-white tracking-wide uppercase">Daftar TTD Prodi Aktif</h2>
+            <span id="badgeTtdTotal" class="text-xs font-mono font-bold text-amber-300 bg-amber-500/10 border border-amber-500/20 px-3 py-1 rounded-full">0 TTD</span>
+          </div>
+
+          <div class="overflow-x-auto rounded-xl border border-indigo-900/30">
+            <table class="w-full text-left text-xs text-slate-300 table-life">
+              <thead class="text-slate-400 uppercase text-[10px] font-mono border-b border-indigo-900/30">
+                <tr>
+                  <th class="px-3.5 py-3 w-12 text-center">No</th>
+                  <th class="px-3.5 py-3">Program Studi</th>
+                  <th class="px-3.5 py-3">Layout Slide</th>
+                  <th class="px-3.5 py-3">Daftar Penandatangan (TTD)</th>
+                  <th class="px-3.5 py-3 text-center w-16">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="tableTtdBody" class="divide-y divide-indigo-900/20 bg-[#0a0c16]">
+                <tr><td colspan="5" class="text-center py-6 text-slate-500 italic">Memuat data TTD prodi...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
