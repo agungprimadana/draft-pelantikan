@@ -1,0 +1,6 @@
+{
+  "name": "Generator Presentasi Pelantikan Dokter Spesialis",
+  "description": "Generator presentasi pelantikan dokter spesialis multi-prodi terintegrasi Google Apps Script, Google Sheets, dan Google Slides.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
