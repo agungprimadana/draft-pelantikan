@@ -1,135 +1,128 @@
-<style>
-  /* Custom Scrollbar */
-  ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
-  ::-webkit-scrollbar-track {
-    background: #080911;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: #1c2237;
-    border-radius: 9999px;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: #2b3350;
-  }
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #080911;
+}
+::-webkit-scrollbar-thumb {
+  background: #1c2237;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #2b3350;
+}
 
-  /* SVG Icon Size Guard against layout blowouts */
-  svg {
-    max-width: 100%;
-    flex-shrink: 0;
-  }
-  
-  .card-life svg {
-    max-width: 2rem;
-    max-height: 2rem;
-  }
+/* SVG Icon Size Guard against layout blowouts */
+svg {
+  max-width: 100%;
+  flex-shrink: 0;
+}
 
-  /* Deep Midnight Glass Theme matching "Life Planner" Reference UI */
-  body {
-    background-color: #080911;
-    color: #e2e8f0;
-    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-  }
+.card-life svg {
+  max-width: 2rem;
+  max-height: 2rem;
+}
 
-  .card-life {
-    background: #131728;
-    border: 1px solid rgba(99, 102, 241, 0.14);
-    box-shadow: 0 12px 36px -8px rgba(0, 0, 0, 0.5);
-    border-radius: 1.125rem;
-    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  }
+/* Deep Midnight Glass Theme */
+body {
+  background-color: #080911;
+  color: #e2e8f0;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+}
 
-  .card-life:hover {
-    border-color: rgba(99, 102, 241, 0.28);
-    box-shadow: 0 16px 40px -6px rgba(0, 0, 0, 0.6);
-  }
+.card-life {
+  background: #131728;
+  border: 1px solid rgba(99, 102, 241, 0.14);
+  box-shadow: 0 12px 36px -8px rgba(0, 0, 0, 0.5);
+  border-radius: 1.125rem;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
 
-  .input-life {
-    background: #0c0e18;
-    border: 1px solid rgba(99, 102, 241, 0.18);
-    color: #f8fafc;
-    transition: all 0.2s ease-in-out;
-  }
+.card-life:hover {
+  border-color: rgba(99, 102, 241, 0.28);
+  box-shadow: 0 16px 40px -6px rgba(0, 0, 0, 0.6);
+}
 
-  .input-life:focus {
-    outline: none;
-    border-color: #6366f1;
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
-    background: #101322;
-  }
+.input-life {
+  background: #0c0e18;
+  border: 1px solid rgba(99, 102, 241, 0.18);
+  color: #f8fafc;
+  transition: all 0.2s ease-in-out;
+}
 
-  /* Custom Spinner Animation */
-  @keyframes spinCustom {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-  }
-  .animate-spin-custom {
-    animation: spinCustom 1s linear infinite;
-  }
+.input-life:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+  background: #101322;
+}
 
-  /* Sidebar Navigation Item matching Reference UI */
-  .nav-life-btn {
-    position: relative;
-    transition: all 0.2s ease-in-out;
-    border-radius: 0.875rem;
-  }
+@keyframes spinCustom {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.animate-spin-custom {
+  animation: spinCustom 1s linear infinite;
+}
 
-  .nav-life-btn.active {
-    background: #232a48;
-    color: #ffffff;
-    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.25);
-  }
+.nav-life-btn {
+  position: relative;
+  transition: all 0.2s ease-in-out;
+  border-radius: 0.875rem;
+}
 
-  .nav-life-btn.active svg {
-    color: #818cf8;
-  }
+.nav-life-btn.active {
+  background: #232a48;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.25);
+}
 
-  /* Stat Widget Icon Boxes */
-  .icon-box-purple {
-    background: rgba(139, 92, 246, 0.15);
-    border: 1px solid rgba(139, 92, 246, 0.3);
-    color: #c084fc;
-  }
+.nav-life-btn.active svg {
+  color: #818cf8;
+}
 
-  .icon-box-emerald {
-    background: rgba(16, 185, 129, 0.15);
-    border: 1px solid rgba(16, 185, 129, 0.3);
-    color: #34d399;
-  }
+.icon-box-purple {
+  background: rgba(139, 92, 246, 0.15);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  color: #c084fc;
+}
 
-  .icon-box-blue {
-    background: rgba(59, 130, 246, 0.15);
-    border: 1px solid rgba(59, 130, 246, 0.3);
-    color: #60a5fa;
-  }
+.icon-box-emerald {
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: #34d399;
+}
 
-  .icon-box-orange {
-    background: rgba(249, 115, 22, 0.15);
-    border: 1px solid rgba(249, 115, 22, 0.3);
-    color: #fb923c;
-  }
+.icon-box-blue {
+  background: rgba(59, 130, 246, 0.15);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  color: #60a5fa;
+}
 
-  /* Table Custom Styling */
-  .table-life th {
-    background: #0d101d;
-    letter-spacing: 0.05em;
-  }
+.icon-box-orange {
+  background: rgba(249, 115, 22, 0.15);
+  border: 1px solid rgba(249, 115, 22, 0.3);
+  color: #fb923c;
+}
 
-  .table-life tbody tr {
-    transition: background-color 0.15s ease;
-  }
+.table-life th {
+  background: #0d101d;
+  letter-spacing: 0.05em;
+}
 
-  .table-life tbody tr:hover {
-    background-color: rgba(99, 102, 241, 0.04);
-  }
+.table-life tbody tr {
+  transition: background-color 0.15s ease;
+}
 
-  /* Hero Mountain Banner Styling with Dynamic Smooth Background Transition */
-  .hero-banner-life {
-    background: linear-gradient(135deg, rgba(13, 15, 29, 0.88) 0%, rgba(20, 23, 40, 0.75) 50%, rgba(13, 15, 29, 0.92) 100%), 
-                url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
-    border: 1px solid rgba(99, 102, 241, 0.2);
-    transition: background 0.4s ease-in-out;
-  }
-</style>
+.table-life tbody tr:hover {
+  background-color: rgba(99, 102, 241, 0.04);
+}
+
+.hero-banner-life {
+  background: linear-gradient(135deg, rgba(13, 15, 29, 0.88) 0%, rgba(20, 23, 40, 0.75) 50%, rgba(13, 15, 29, 0.92) 100%), 
+              url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  transition: background 0.4s ease-in-out;
+}
