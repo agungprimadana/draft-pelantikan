@@ -1,21 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
   <head>
-    <base target="_top">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generator Pelantikan Dokter Spesialis FK UB</title>
-    <!-- Tailwind CDN for Google Apps Script HTML -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-    <?!= include('Css'); ?>
+    <link rel="stylesheet" href="./style.css">
   </head>
   <body class="bg-[#080911] text-slate-100 min-h-screen flex flex-col md:flex-row font-['Plus_Jakarta_Sans',sans-serif] selection:bg-indigo-500 selection:text-white overflow-x-hidden antialiased">
     
-    <!-- LEFT VERTICAL SIDEBAR (MATCHING REFERENCE UI) -->
+    <!-- LEFT VERTICAL SIDEBAR -->
     <aside class="w-full md:w-64 bg-[#0d0f1d] border-b md:border-b-0 md:border-r border-indigo-900/20 flex-shrink-0 flex flex-col justify-between sticky top-0 md:h-screen z-30 shadow-2xl">
       <div>
-        <!-- App Branding -->
         <div class="p-5 border-b border-indigo-900/20 flex items-center space-x-3">
           <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-amber-500 flex items-center justify-center shadow-lg shadow-indigo-600/30 ring-1 ring-white/20 flex-shrink-0">
             <span class="font-extrabold text-white text-base tracking-tighter">FK</span>
@@ -30,7 +27,6 @@
           </div>
         </div>
 
-        <!-- Vertical Navigation Stack -->
         <nav class="p-3.5 space-y-1.5">
           <div class="px-3 pt-2 pb-1.5 text-[10px] uppercase font-extrabold text-slate-500 tracking-wider font-mono">Menu Utama</div>
           
@@ -57,7 +53,6 @@
         </nav>
       </div>
 
-      <!-- Sidebar Footer Quote Box & Action -->
       <div class="p-3.5 border-t border-indigo-900/20 space-y-3">
         <div class="p-3 rounded-xl bg-[#131728] border border-indigo-500/10 text-[11px] text-slate-400 leading-relaxed italic">
           "Small steps every day create big results."
@@ -92,7 +87,6 @@
           </p>
         </div>
 
-        <!-- Handwritten Motivational Quote Overlay at Top Right -->
         <div class="text-right z-10 self-end md:self-center">
           <p class="font-['Caveat',cursive] text-2xl md:text-3xl text-amber-300 font-bold transform -rotate-3 leading-snug drop-shadow-md">
             Discipline today,<br>freedom tomorrow.
@@ -107,7 +101,7 @@
           <span class="text-slate-400 font-medium">Terhubung ke:</span>
           <span id="sheetConnectedTitle" class="font-bold text-white truncate font-mono">Google Sheet</span>
         </div>
-        <button onclick="changeSpreadsheetPrompt()" class="text-[11px] text-indigo-400 hover:text-indigo-300 hover:underline flex-shrink-0 font-semibold">Ganti Sheet</button>
+        <button onclick="changeSpreadsheetPrompt()" class="text-[11px] text-indigo-400 hover:text-indigo-300 hover:underline flex-shrink-0 font-semibold">Pengaturan Koneksi</button>
       </div>
 
       <!-- Status Alert Banner -->
@@ -119,32 +113,31 @@
         </div>
       </div>
 
-      <!-- Input Spreadsheet ID jika dibuka di Web App Standalone -->
+      <!-- Konfigurasi Koneksi Apps Script & Spreadsheet -->
       <div id="spreadsheetConfigBox" class="hidden card-life p-5 border-indigo-500/30 bg-indigo-950/20 space-y-3">
-        <div class="flex items-start justify-between">
-          <div>
-            <h3 class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-1.5 text-indigo-300">
-              <svg class="w-5 h-5 text-indigo-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-              </svg>
-              Mode Web App Terpisah: Sambungkan Google Sheet
-            </h3>
-            <p class="text-xs text-slate-400 mt-0.5">Masukkan ID atau Tautan Google Spreadsheet data wisudawan Anda:</p>
-          </div>
+        <div>
+          <h3 class="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-1.5 text-indigo-300">
+            <svg class="w-5 h-5 text-indigo-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+            Sambungkan Backend Apps Script & Google Sheet
+          </h3>
+          <p class="text-xs text-slate-400 mt-0.5">Masukkan URL Web App Apps Script (berakhiran <code class="text-amber-400">/exec</code>) dan ID/URL Google Spreadsheet Anda:</p>
         </div>
-        <div class="flex gap-2">
-          <input type="text" id="inputSpreadsheetId" placeholder="Contoh: 1nkQdZZVcqSkix-DZWAPN4jMZmSA5boIQlPOmmuSxNQk atau URL" class="input-life flex-1 px-3.5 py-2.5 rounded-xl text-xs font-mono">
-          <button onclick="applySpreadsheetId()" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-xl transition-all shadow-md flex-shrink-0">
-            Hubungkan
-          </button>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+          <input type="url" id="inputGasUrl" placeholder="URL Web App Apps Script (https://script.google.com/.../exec)" class="input-life px-3.5 py-2.5 rounded-xl text-xs font-mono">
+          <div class="flex gap-2">
+            <input type="text" id="inputSpreadsheetId" placeholder="ID atau URL Google Spreadsheet" class="input-life flex-1 px-3.5 py-2.5 rounded-xl text-xs font-mono">
+            <button onclick="applySpreadsheetId()" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-xl transition-all shadow-md flex-shrink-0">
+              Hubungkan
+            </button>
+          </div>
         </div>
       </div>
 
       <!-- ================= TAB 1: DASHBOARD & GENERATOR ================= -->
       <div id="viewDashboard" class="space-y-6">
-        <!-- Hero Stat Widgets Grid -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <!-- Stat 1: Total Tasks / Wisudawan (Purple Accent) -->
           <div class="card-life p-4.5 space-y-3">
             <div class="flex items-center justify-between">
               <div class="w-9 h-9 rounded-xl icon-box-purple flex items-center justify-center">
@@ -166,7 +159,6 @@
             </div>
           </div>
 
-          <!-- Stat 2: Program Studi (Emerald Accent) -->
           <div class="card-life p-4.5 space-y-3">
             <div class="flex items-center justify-between">
               <div class="w-9 h-9 rounded-xl icon-box-emerald flex items-center justify-center">
@@ -188,7 +180,6 @@
             </div>
           </div>
 
-          <!-- Stat 3: Konfigurasi TTD (Blue Accent) -->
           <div class="card-life p-4.5 space-y-3">
             <div class="flex items-center justify-between">
               <div class="w-9 h-9 rounded-xl icon-box-blue flex items-center justify-center">
@@ -210,7 +201,6 @@
             </div>
           </div>
 
-          <!-- Stat 4: Tata Letak Generasi (Orange Accent) -->
           <div class="card-life p-4.5 space-y-3">
             <div class="flex items-center justify-between">
               <div class="w-9 h-9 rounded-xl icon-box-orange flex items-center justify-center">
@@ -233,7 +223,6 @@
           </div>
         </div>
 
-        <!-- Settings Form dengan Date Picker Kalender Interaktif + DUAL DYNAMIC BANNER IMAGE (FILE UPLOAD & URL) -->
         <section class="card-life p-6 space-y-4">
           <h2 class="text-sm font-bold text-white tracking-wide uppercase flex items-center gap-2">
             <svg class="w-5 h-5 text-indigo-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -261,47 +250,22 @@
               <input type="text" id="inputTemplateId" value="1dh-tTb1LlIoLGGwI_JA0Ev-iS5ZTyToHQEDuvXdYBWM" class="input-life w-full px-3.5 py-2.5 rounded-xl text-xs font-mono">
             </div>
 
-            <!-- FITUR DUAL GAMBAR BANNER HEADER: FILE UPLOAD + URL INPUT -->
-            <div class="md:col-span-2 pt-3 border-t border-indigo-900/20 space-y-3">
-              <div class="flex items-center justify-between">
-                <label class="block text-xs font-semibold text-slate-300">
-                  Ganti Gambar Banner Header Atas
-                </label>
-                <button type="button" onclick="resetHeroBannerImage()" class="text-[11px] text-indigo-400 hover:text-indigo-300 hover:underline font-semibold flex items-center gap-1">
-                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
-                  <span>Reset Gambar Default</span>
+            <div class="md:col-span-2 pt-2 border-t border-indigo-900/20">
+              <label class="block text-xs font-semibold text-slate-300 mb-1.5 flex items-center justify-between">
+                <span>URL Gambar Banner Header (Ganti Foto Background Atas)</span>
+                <button type="button" onclick="resetHeroBannerImage()" class="text-[11px] text-indigo-400 hover:text-indigo-300 hover:underline">Reset Gambar Default</button>
+              </label>
+              <div class="flex gap-2">
+                <input type="url" id="inputBannerUrl" oninput="updateHeroBannerPreview(this.value)" placeholder="Tempel URL Tautan Gambar Baru (Contoh: https://.../gambar-fkub.jpg)" class="input-life flex-1 px-3.5 py-2.5 rounded-xl text-xs font-mono">
+                <button type="button" onclick="updateHeroBannerPreview(document.getElementById('inputBannerUrl').value)" class="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-xl transition-all shadow-md flex-shrink-0 flex items-center gap-1.5">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                  <span>Terapkan</span>
                 </button>
-              </div>
-
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <!-- Metode 1: Upload File Gambar dari Komputer -->
-                <div class="p-3.5 rounded-xl bg-[#0b0d18] border border-indigo-900/30 space-y-2">
-                  <span class="block text-[11px] font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
-                    Metode 1: Unggah File Gambar (.jpg / .png)
-                  </span>
-                  <input type="file" id="inputBannerFile" accept="image/*" onchange="handleBannerFileUpload(event)" class="block w-full text-xs text-slate-400 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-emerald-600 file:text-white hover:file:bg-emerald-500 file:cursor-pointer cursor-pointer border border-indigo-900/30 rounded-xl bg-slate-950 p-1">
-                </div>
-
-                <!-- Metode 2: Tautan URL Gambar Web -->
-                <div class="p-3.5 rounded-xl bg-[#0b0d18] border border-indigo-900/30 space-y-2">
-                  <span class="block text-[11px] font-bold text-indigo-400 uppercase tracking-wider flex items-center gap-1.5">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
-                    Metode 2: Tautan URL Gambar Web
-                  </span>
-                  <div class="flex gap-2">
-                    <input type="url" id="inputBannerUrl" oninput="updateHeroBannerPreview(this.value)" placeholder="Tempel URL Gambar (https://...)" class="input-life flex-1 px-3 py-1.5 rounded-xl text-xs font-mono">
-                    <button type="button" onclick="updateHeroBannerPreview(document.getElementById('inputBannerUrl').value)" class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-xl transition-all shadow-md flex-shrink-0">
-                      Terapkan
-                    </button>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
         </section>
 
-        <!-- Preview TTD Prodi Summary -->
         <section class="card-life p-6 space-y-4">
           <div class="flex items-center justify-between">
             <h2 class="text-sm font-bold text-white tracking-wide uppercase flex items-center gap-2">
@@ -318,7 +282,6 @@
           </div>
         </section>
 
-        <!-- Execution Trigger -->
         <div class="card-life p-6 space-y-4 border-indigo-500/30 bg-gradient-to-b from-[#181c33] to-[#101324]">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
@@ -334,7 +297,6 @@
             </button>
           </div>
 
-          <!-- Progress Indicator -->
           <div id="progressBox" class="hidden space-y-2.5 pt-3 border-t border-indigo-900/30">
             <div class="flex justify-between text-xs text-slate-300">
               <span id="progressLabel" class="flex items-center gap-2">
@@ -349,7 +311,6 @@
           </div>
         </div>
 
-        <!-- Result Box -->
         <div id="resultBox" class="hidden card-life p-6 border-emerald-500/30 bg-emerald-950/10 space-y-4">
           <div class="flex items-start justify-between">
             <div class="flex items-center space-x-3">
@@ -380,10 +341,8 @@
         </div>
       </div>
 
-      <!-- ================= TAB 2: DATA BIODATA (Single & Impor Excel 4 Kolom) ================= -->
+      <!-- ================= TAB 2: DATA BIODATA ================= -->
       <div id="viewBiodata" class="hidden space-y-6">
-
-        <!-- Main Card Tambah / Impor Wisudawan -->
         <section class="card-life p-6 space-y-4">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-indigo-900/30 pb-4">
             <div>
@@ -396,120 +355,76 @@
               <p class="text-[11px] text-slate-400 mt-0.5">Data otomatis tersimpan ke tab <code class="text-amber-400 font-mono">'Wisudawan'</code></p>
             </div>
 
-            <!-- Sub-Mode Toggle Buttons -->
             <div class="flex items-center space-x-1 bg-[#0b0d18] p-1 rounded-xl border border-indigo-900/30 self-start sm:self-auto">
               <button id="btnSubModeSingle" onclick="switchBioSubMode('single')" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center space-x-1 text-white bg-emerald-600 shadow">
-                <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
-                </svg>
                 <span>Form Satu-per-Satu</span>
               </button>
               <button id="btnSubModeBulk" onclick="switchBioSubMode('bulk')" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center space-x-1 text-slate-400 hover:text-white">
-                <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                </svg>
                 <span>📂 Impor Excel / Bulk Paste</span>
               </button>
             </div>
           </div>
 
-          <!-- SUB-MODE 1: Form Input Single -->
           <div id="boxBioSingle">
             <form id="formAddBiodata" onsubmit="submitWisudawan(event)" class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
               <div>
                 <label class="block font-semibold text-slate-300 mb-1">Nama Dokter (NAMA) *</label>
                 <input type="text" id="bioNama" placeholder="Contoh: dr. Ahmad Santoso, Sp.An-TI" required class="input-life w-full px-3.5 py-2.5 rounded-xl text-white">
               </div>
-
               <div>
                 <label class="block font-semibold text-slate-300 mb-1">Tempat, Tanggal Lahir (TTL)</label>
                 <input type="text" id="bioTtl" placeholder="Contoh: Malang, 15 Juli 1992" class="input-life w-full px-3.5 py-2.5 rounded-xl text-white">
               </div>
-
               <div>
                 <label class="block font-semibold text-slate-300 mb-1">Nama Ayah (NAMA AYAH)</label>
                 <input type="text" id="bioAyah" placeholder="Contoh: Bpk. H. Bambang" class="input-life w-full px-3.5 py-2.5 rounded-xl text-white">
               </div>
-
               <div>
                 <label class="block font-semibold text-slate-300 mb-1">Nama Ibu (NAMA IBU)</label>
                 <input type="text" id="bioIbu" placeholder="Contoh: Ibu Hj. Siti Rahma" class="input-life w-full px-3.5 py-2.5 rounded-xl text-white">
               </div>
-
               <div class="sm:col-span-2 flex items-center justify-end pt-2">
                 <button type="submit" id="btnSaveBio" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md transition-all flex items-center space-x-1.5">
-                  <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
-                  </svg>
                   <span>+ Simpan Wisudawan</span>
                 </button>
               </div>
             </form>
           </div>
 
-          <!-- SUB-MODE 2: Impor Excel & Bulk Paste (4 Kolom) -->
           <div id="boxBioBulk" class="hidden space-y-3 text-xs">
             <div class="p-3.5 rounded-xl bg-[#0b0d18] border border-indigo-900/30 space-y-2">
               <div class="flex items-center justify-between">
-                <span class="font-bold text-slate-200 uppercase tracking-wider text-[11px] flex items-center gap-1.5">
-                  <svg class="w-4 h-4 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
-                  </svg>
-                  Metode 1: Unggah File Excel / CSV (.xlsx / .csv)
-                </span>
+                <span class="font-bold text-slate-200 uppercase tracking-wider text-[11px]">Metode 1: Unggah File Excel / CSV (.xlsx / .csv)</span>
                 <span class="text-[10px] text-emerald-400 font-mono font-bold">Format 4 Kolom: NAMA | TTL | AYAH | IBU</span>
               </div>
-
               <input type="file" id="inputFileExcel" accept=".xlsx, .xls, .csv" onchange="handleExcelFileUpload(event)" class="block w-full text-xs text-slate-400 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-indigo-600 file:text-white hover:file:bg-indigo-500 file:cursor-pointer cursor-pointer border border-indigo-900/30 rounded-xl bg-slate-950 p-1">
             </div>
 
             <div class="p-3.5 rounded-xl bg-[#0b0d18] border border-indigo-900/30 space-y-2">
               <div class="flex items-center justify-between">
-                <span class="font-bold text-slate-200 uppercase tracking-wider text-[11px] flex items-center gap-1.5">
-                  <svg class="w-4 h-4 text-indigo-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
-                  </svg>
-                  Metode 2: Tempel / Copy-Paste Kolom dari Excel
-                </span>
+                <span class="font-bold text-slate-200 uppercase tracking-wider text-[11px]">Metode 2: Tempel / Copy-Paste Kolom dari Excel</span>
                 <button type="button" onclick="parseBulkText()" class="text-[11px] text-indigo-400 font-semibold hover:underline">Pratinjau Data</button>
               </div>
-
-              <textarea id="txtBulkInput" rows="5" placeholder="Tempel baris data dari Excel di sini (Pemisah Tab / Koma / Pipe):&#10;dr. Reza Ariestyawan Ramadhan, Sp.An-TI  |  Merauke 26 Maret 1991  |  Edy Santosa  |  Almh. Henny Istyowati&#10;dr. Firmandiyara Angkasa, Sp.A           |  Bandung, 23 Agustus 1995 |  Endas Agjar  |  Dra. Suhaeni&#10;dr. Catur Rizky Kurniawan, Sp.JP        |  Sidoarjo, 19 Desember 1990|  Purwadi      |  Zahroh" class="input-life w-full px-3.5 py-2.5 rounded-xl font-mono text-xs"></textarea>
+              <textarea id="txtBulkInput" rows="5" placeholder="Tempel baris data dari Excel di sini (Pemisah Tab / Koma / Pipe)" class="input-life w-full px-3.5 py-2.5 rounded-xl font-mono text-xs"></textarea>
             </div>
 
-            <!-- Preview Box Impor -->
             <div id="bulkPreviewBox" class="hidden p-3.5 rounded-xl bg-[#0b0d18] border border-emerald-500/30 space-y-2">
-              <div class="flex items-center justify-between">
-                <span class="font-bold text-emerald-400 text-xs flex items-center gap-1.5">
-                  <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                  Pratinjau: Terdeteksi <span id="lblBulkCount" class="underline">0</span> Baris Data
-                </span>
-              </div>
+              <span class="font-bold text-emerald-400 text-xs">Pratinjau: Terdeteksi <span id="lblBulkCount" class="underline">0</span> Baris Data</span>
               <div id="bulkPreviewTable" class="max-h-40 overflow-y-auto text-[11px] font-mono text-slate-300 space-y-1"></div>
             </div>
 
             <div class="flex justify-end pt-1">
-              <button type="button" id="btnSaveBulk" onclick="executeBulkImport()" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md transition-all flex items-center space-x-1.5 disabled:opacity-50">
-                <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
-                </svg>
-                <span>Simpan Massal ke Sheet</span>
+              <button type="button" id="btnSaveBulk" onclick="executeBulkImport()" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md transition-all disabled:opacity-50">
+                Simpan Massal ke Sheet
               </button>
             </div>
           </div>
         </section>
 
-        <!-- Tabel Daftar Wisudawan Terdaftar -->
         <section class="card-life p-6 space-y-4">
           <div class="flex items-center justify-between">
-            <h2 class="text-sm font-bold text-white tracking-wide uppercase flex items-center gap-2">
-              <svg class="w-5 h-5 text-indigo-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/>
-              </svg>
-              <span>Daftar Wisudawan Terdaftar</span>
-            </h2>
-
-            <span id="badgeWisTotal" class="text-xs font-mono font-bold text-indigo-300 bg-indigo-500/10 border border-indigo-500/20 px-3 py-1 rounded-full flex-shrink-0">0 Dokter</span>
+            <h2 class="text-sm font-bold text-white tracking-wide uppercase">Daftar Wisudawan Terdaftar</h2>
+            <span id="badgeWisTotal" class="text-xs font-mono font-bold text-indigo-300 bg-indigo-500/10 border border-indigo-500/20 px-3 py-1 rounded-full">0 Dokter</span>
           </div>
 
           <div class="overflow-x-auto rounded-xl border border-indigo-900/30">
@@ -525,47 +440,32 @@
                 </tr>
               </thead>
               <tbody id="tableWisudawanBody" class="divide-y divide-indigo-900/20 bg-[#0a0c16]">
-                <tr>
-                  <td colspan="6" class="text-center py-6 text-slate-500 italic">Memuat data wisudawan...</td>
-                </tr>
+                <tr><td colspan="6" class="text-center py-6 text-slate-500 italic">Memuat data wisudawan...</td></tr>
               </tbody>
             </table>
           </div>
         </section>
       </div>
 
-      <!-- ================= TAB 3: PEMANGGILAN TTD PRODI (Single & Impor Excel) ================= -->
+      <!-- ================= TAB 3: PEMANGGILAN TTD PRODI ================= -->
       <div id="viewTtd" class="hidden space-y-6">
         <section class="card-life p-6 space-y-4">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-indigo-900/30 pb-4">
             <div>
-              <h2 class="text-sm font-bold text-white tracking-wide uppercase flex items-center gap-2">
-                <svg class="w-5 h-5 text-amber-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
-                </svg>
-                <span>Pengaturan TTD Pemanggilan Berdiri per Prodi</span>
-              </h2>
+              <h2 class="text-sm font-bold text-white tracking-wide uppercase">Pengaturan TTD Pemanggilan Berdiri per Prodi</h2>
               <p class="text-[11px] text-slate-400 mt-0.5">Data tersimpan ke tab <code class="text-amber-400 font-mono">'TTD'</code> (5 Kolom: PRODI, LAYOUT, TTD1, TTD2, TTD3)</p>
             </div>
 
-            <!-- Sub-Mode Toggle Buttons TTD -->
             <div class="flex items-center space-x-1 bg-[#0b0d18] p-1 rounded-xl border border-indigo-900/30 self-start sm:self-auto">
-              <button id="btnSubModeTtdSingle" onclick="switchTtdSubMode('single')" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center space-x-1 text-white bg-amber-600 shadow">
-                <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
-                </svg>
-                <span>Form Satu-per-Satu</span>
+              <button id="btnSubModeTtdSingle" onclick="switchTtdSubMode('single')" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all text-white bg-amber-600 shadow">
+                Form Satu-per-Satu
               </button>
-              <button id="btnSubModeTtdBulk" onclick="switchTtdSubMode('bulk')" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center space-x-1 text-slate-400 hover:text-white">
-                <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                </svg>
-                <span>📂 Impor Excel / Bulk Paste TTD</span>
+              <button id="btnSubModeTtdBulk" onclick="switchTtdSubMode('bulk')" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all text-slate-400 hover:text-white">
+                📂 Impor Excel / Bulk Paste TTD
               </button>
             </div>
           </div>
 
-          <!-- SUB-MODE TTD 1: Single Form -->
           <div id="boxTtdSingle">
             <form id="formSaveTtd" onsubmit="submitTtd(event)" class="space-y-3 text-xs">
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -573,7 +473,6 @@
                   <label class="block font-semibold text-slate-300 mb-1">Nama Program Studi (PRODI) *</label>
                   <input type="text" id="ttdProdi" placeholder="Contoh: Anestesiologi dan Terapi Intensif" required class="input-life w-full px-3.5 py-2.5 rounded-xl text-white">
                 </div>
-
                 <div>
                   <label class="block font-semibold text-slate-300 mb-1">Pilihan Layout Slide TTD *</label>
                   <select id="ttdLayout" onchange="toggleTtdInputs()" class="input-life w-full px-3.5 py-2.5 rounded-xl text-white">
@@ -584,96 +483,62 @@
                 </div>
               </div>
 
-              <!-- Inputs Nama TTD Dynamic -->
               <div class="space-y-2 pt-2 border-t border-indigo-900/30">
                 <div id="boxTtd1">
-                  <label class="block font-semibold text-amber-400 mb-1">Nama TTD 1 (Tag: <code class="font-mono text-[10px]">{{NAMA_TTD_1}}</code>) *</label>
+                  <label class="block font-semibold text-amber-400 mb-1">Nama TTD 1 *</label>
                   <input type="text" id="ttdNama1" placeholder="Dr. dr. Nama Penandatangan 1, Sp.An-TI" required class="input-life w-full px-3.5 py-2.5 rounded-xl text-white">
                 </div>
-
                 <div id="boxTtd2" class="hidden">
-                  <label class="block font-semibold text-amber-400 mb-1">Nama TTD 2 (Tag: <code class="font-mono text-[10px]">{{NAMA_TTD_2}}</code>) *</label>
+                  <label class="block font-semibold text-amber-400 mb-1">Nama TTD 2 *</label>
                   <input type="text" id="ttdNama2" placeholder="Prof. Dr. dr. Nama Penandatangan 2, Sp.A(K)" class="input-life w-full px-3.5 py-2.5 rounded-xl text-white">
                 </div>
-
                 <div id="boxTtd3" class="hidden">
-                  <label class="block font-semibold text-amber-400 mb-1">Nama TTD 3 (Tag: <code class="font-mono text-[10px]">{{NAMA_TTD_3}}</code>) *</label>
+                  <label class="block font-semibold text-amber-400 mb-1">Nama TTD 3 *</label>
                   <input type="text" id="ttdNama3" placeholder="Dr. dr. Nama Penandatangan 3, Sp.B" class="input-life w-full px-3.5 py-2.5 rounded-xl text-white">
                 </div>
               </div>
 
               <div class="flex justify-end pt-2">
-                <button type="submit" id="btnSaveTtd" class="px-5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs shadow-md transition-all flex items-center space-x-1.5">
-                  <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-                  </svg>
-                  <span>Simpan Konfigurasi TTD</span>
+                <button type="submit" id="btnSaveTtd" class="px-5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs shadow-md transition-all">
+                  Simpan Konfigurasi TTD
                 </button>
               </div>
             </form>
           </div>
 
-          <!-- SUB-MODE TTD 2: Impor Excel & Bulk Paste TTD -->
           <div id="boxTtdBulk" class="hidden space-y-3 text-xs">
             <div class="p-3.5 rounded-xl bg-[#0b0d18] border border-indigo-900/30 space-y-2">
               <div class="flex items-center justify-between">
-                <span class="font-bold text-slate-200 uppercase tracking-wider text-[11px] flex items-center gap-1.5">
-                  <svg class="w-4 h-4 text-amber-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
-                  </svg>
-                  Metode 1: Unggah File Excel TTD (.xlsx / .csv)
-                </span>
+                <span class="font-bold text-slate-200 uppercase tracking-wider text-[11px]">Metode 1: Unggah File Excel TTD (.xlsx / .csv)</span>
                 <span class="text-[10px] text-amber-400/90 font-mono font-bold">Format 5 Kolom: PRODI | LAYOUT (1/2/3) | TTD1 | TTD2 | TTD3</span>
               </div>
-
               <input type="file" id="inputFileExcelTtd" accept=".xlsx, .xls, .csv" onchange="handleTtdExcelFileUpload(event)" class="block w-full text-xs text-slate-400 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-amber-600 file:text-white hover:file:bg-amber-500 file:cursor-pointer cursor-pointer border border-indigo-900/30 rounded-xl bg-slate-950 p-1">
             </div>
 
             <div class="p-3.5 rounded-xl bg-[#0b0d18] border border-indigo-900/30 space-y-2">
               <div class="flex items-center justify-between">
-                <span class="font-bold text-slate-200 uppercase tracking-wider text-[11px] flex items-center gap-1.5">
-                  <svg class="w-4 h-4 text-amber-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
-                  </svg>
-                  Metode 2: Tempel / Copy-Paste Kolom Tabel TTD dari Excel
-                </span>
+                <span class="font-bold text-slate-200 uppercase tracking-wider text-[11px]">Metode 2: Tempel / Copy-Paste Kolom Tabel TTD dari Excel</span>
                 <button type="button" onclick="parseTtdBulkText()" class="text-[11px] text-amber-400 font-semibold hover:underline">Pratinjau Data TTD</button>
               </div>
-
-              <textarea id="txtTtdBulkInput" rows="4" placeholder="Tempel baris tabel TTD dari Excel di sini (Pemisah Tab / Koma):&#10;Anestesiologi dan Terapi Intensif  |  3  |  dr. Reza, Sp.An  |  dr. Sahala, Sp.An  |  dr. Veva, Sp.An&#10;Ilmu Kesehatan Anak               |  2  |  dr. La Ode, Sp.A  |  dr. Firmandiyara, Sp.A  |  &#10;Mikrobiologi Klinik               |  1  |  dr. Genio, Sp.MK  |                    |  " class="input-life w-full px-3.5 py-2.5 rounded-xl font-mono text-xs"></textarea>
+              <textarea id="txtTtdBulkInput" rows="4" placeholder="Tempel baris tabel TTD dari Excel di sini" class="input-life w-full px-3.5 py-2.5 rounded-xl font-mono text-xs"></textarea>
             </div>
 
-            <!-- Preview Box Impor TTD -->
             <div id="ttdBulkPreviewBox" class="hidden p-3.5 rounded-xl bg-[#0b0d18] border border-amber-500/30 space-y-2">
-              <div class="flex items-center justify-between">
-                <span class="font-bold text-amber-400 text-xs flex items-center gap-1.5">
-                  <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-                  Pratinjau TTD: Terdeteksi <span id="lblTtdBulkCount" class="underline">0</span> Prodi TTD
-                </span>
-              </div>
+              <span class="font-bold text-amber-400 text-xs">Pratinjau TTD: Terdeteksi <span id="lblTtdBulkCount" class="underline">0</span> Prodi TTD</span>
               <div id="ttdBulkPreviewTable" class="max-h-40 overflow-y-auto text-[11px] font-mono text-slate-300 space-y-1"></div>
             </div>
 
             <div class="flex justify-end pt-1">
-              <button type="button" id="btnSaveTtdBulk" onclick="executeTtdBulkImport()" class="px-5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs shadow-md transition-all flex items-center space-x-1.5 disabled:opacity-50">
-                <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
-                </svg>
-                <span>Simpan Massal TTD ke Sheet</span>
+              <button type="button" id="btnSaveTtdBulk" onclick="executeTtdBulkImport()" class="px-5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs shadow-md transition-all disabled:opacity-50">
+                Simpan Massal TTD ke Sheet
               </button>
             </div>
           </div>
         </section>
 
-        <!-- Tabel Daftar TTD Prodi -->
         <section class="card-life p-6 space-y-4">
           <div class="flex items-center justify-between">
-            <h2 class="text-sm font-bold text-white tracking-wide uppercase flex items-center gap-2">
-              <svg class="w-5 h-5 text-amber-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
-              </svg>
-              <span>Daftar TTD Prodi Aktif</span>
-            </h2>
+            <h2 class="text-sm font-bold text-white tracking-wide uppercase">Daftar TTD Prodi Aktif</h2>
             <span id="badgeTtdTotal" class="text-xs font-mono font-bold text-amber-300 bg-amber-500/10 border border-amber-500/20 px-3 py-1 rounded-full">0 TTD</span>
           </div>
 
@@ -689,9 +554,7 @@
                 </tr>
               </thead>
               <tbody id="tableTtdBody" class="divide-y divide-indigo-900/20 bg-[#0a0c16]">
-                <tr>
-                  <td colspan="5" class="text-center py-6 text-slate-500 italic">Memuat data TTD prodi...</td>
-                </tr>
+                <tr><td colspan="5" class="text-center py-6 text-slate-500 italic">Memuat data TTD prodi...</td></tr>
               </tbody>
             </table>
           </div>
@@ -700,8 +563,7 @@
 
     </main>
 
-    <!-- SheetJS for Excel Parsing (.xlsx / .csv) -->
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-    <?!= include('Js'); ?>
+    <script src="./app.js"></script>
   </body>
 </html>
